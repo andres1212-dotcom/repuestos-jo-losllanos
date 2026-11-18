@@ -1,0 +1,20 @@
+{
+  "name": "repuestos-jo-los-llanos",
+  "version": "1.0.0",
+  "description": "Plataforma Web para J.O Los Llanos - Catálogo Digital y Gestión de Repuestos",
+  "main": "server/server.js",
+  "scripts": {
+    "install-server": "cd server && npm install",
+    "build": "cd server && npm install",
+    "start": "node server/server.js"
+  },
+  "keywords": [
+    "repuestos",
+    "catalogo",
+    "automotriz",
+    "guarico",
+    "valle-de-la-pascua"
+  ],
+  "author": "Andres Hurtado & Richard Gomez",
+  "license": "MIT"
+}

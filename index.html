@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es" class="theme-light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Catálogo digital de Repuestos J.O Los Llanos. Encuentra los mejores repuestos de motor, frenos, suspensión y más en Valle de la Pascua, Guárico.">
+    <title>Repuestos J.O Los Llanos | Catálogo Digital Premium</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-container">
+
+    <header class="header">
+        <div class="header__logo">
+            <h1 class="header__title">REPUESTOS <span class="header__title--highlight">J.O LOS LLANOS</span></h1>
+        </div>
+        <nav class="header__nav">
+            <button class="header__nav-btn" id="nav-mision-btn">Misión</button>
+            <button class="header__nav-btn" id="nav-vision-btn">Visión</button>
+            <button class="header__nav-btn" id="nav-contacto-btn">Contacto</button>
+            <button class="header__nav-btn" id="nav-login-btn" style="display: none;">Iniciar Sesión</button>
+            <button class="header__nav-btn header__nav-btn--danger" id="nav-logout-btn" style="display: none; background: #e74c3c; color: white;">Cerrar Sesión</button>
+            <button class="header__nav-btn header__nav-btn--cta" id="nav-add-btn" style="display: none;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align: middle; margin-right: 4px; margin-top: -2px;">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                Agregar Repuesto
+            </button>
+        </nav>
+        <div class="header__actions">
+            <div class="search-box">
+                <input type="text" id="search-input" class="search-box__input"
+                    placeholder="Buscar por OEM, modelo, nombre...">
+                <button id="search-btn" class="search-box__button" aria-label="Buscar">
+                    <svg class="search-box__icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor"
+                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                </button>
+            </div>
+            <button id="cart-toggle-btn" class="cart-btn" aria-label="Ver consultas">
+                <svg class="cart-btn__icon" viewBox="0 0 24 24" width="22" height="22">
+                    <path fill="currentColor"
+                        d="M17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm.2-3h9.75c.73 0 1.36-.4 1.66-1L22 4.24a1 1 0 0 0-.8-1.5H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h11v-2H7.2l1.1-2z" />
+                </svg>
+                <span id="cart-badge" class="cart-btn__badge">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-layout">
+        <aside class="sidebar">
+            <h3 class="sidebar__title">Categorías</h3>
+            <ul class="category-list">
+                <!-- Se cargará dinámicamente con JS -->
+            </ul>
+        </aside>
+
+        <section class="catalog">
+            <div class="catalog__header">
+                <h2 id="catalog-title" class="catalog__title">Catálogo Completo</h2>
+                <p id="catalog-count" class="catalog__count">Cargando repuestos...</p>
+            </div>
+            <div id="catalog-grid" class="catalog__grid">
+                <!-- Se cargará dinámicamente con JS -->
+            </div>
+            <div id="catalog-empty" class="catalog__empty catalog__empty--hidden">
+                <svg class="catalog__empty-icon" viewBox="0 0 24 24" width="48" height="48">
+                    <path fill="currentColor"
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                <h3 class="catalog__empty-title">No se encontraron repuestos</h3>
+                <p class="catalog__empty-text">Prueba buscando por otra palabra clave o ajustando los filtros.</p>
+                <button id="reset-filters-btn" class="catalog__empty-btn">Ver todos los productos</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Detalles del Producto -->
+    <div id="details-modal" class="modal" aria-hidden="true">
+        <div id="modal-overlay" class="modal__overlay"></div>
+        <div class="modal__container">
+            <button id="modal-close-btn" class="modal__close" aria-label="Cerrar modal">&times;</button>
+            <div id="modal-content" class="modal__content">
+                <!-- Se inyecta dinámicamente con JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Iniciar Sesión (Admin) -->
+    <div id="login-modal" class="modal" aria-hidden="true">
+        <div id="login-modal-overlay" class="modal__overlay"></div>
+        <div class="modal__container modal__container--form" style="max-width: 400px;">
+            <button id="login-modal-close-btn" class="modal__close" aria-label="Cerrar modal">&times;</button>
+            <div class="modal__content">
+                <h2 class="modal__title" style="margin-bottom: 20px; text-align: left;">Acceso Administrativo</h2>
+                <form id="login-form" class="modal-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Correo Electrónico</label>
+                        <input type="email" id="login-email" class="form-input" placeholder="Ej: admin@jolosllanos.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Contraseña</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-actions" style="margin-top: 24px;">
+                        <button type="button" id="login-modal-cancel-btn" class="form-btn form-btn--cancel">Cancelar</button>
+                        <button type="submit" class="form-btn form-btn--submit">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Repuestos -->
+    <div id="add-product-modal" class="modal" aria-hidden="true">
+        <div id="add-modal-overlay" class="modal__overlay"></div>
+        <div class="modal__container modal__container--form">
+            <button id="add-modal-close-btn" class="modal__close" aria-label="Cerrar modal">&times;</button>
+            <div class="modal__content">
+                <h2 class="modal__title" style="margin-bottom: 20px; text-align: left;">Agregar Nuevo Repuesto</h2>
+                <form id="add-product-form" class="modal-form">
+                    <div class="form-group">
+                        <label for="prod-name" class="form-label">Nombre del Repuesto</label>
+                        <input type="text" id="prod-name" class="form-input" placeholder="Ej: Pastillas de Freno Delanteras" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prod-oem" class="form-label">Código OEM / Número de Parte</label>
+                            <input type="text" id="prod-oem" class="form-input" placeholder="Ej: 45022-TR0-A01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prod-brand" class="form-label">Marca</label>
+                            <input type="text" id="prod-brand" class="form-input" placeholder="Ej: Bendix Premium" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prod-category" class="form-label">Categoría</label>
+                            <select id="prod-category" class="form-input" required>
+                                <option value="" disabled selected>Seleccione una categoría</option>
+                                <option value="Motor">Motor</option>
+                                <option value="Frenos">Frenos</option>
+                                <option value="Suspensión">Suspensión</option>
+                                <option value="Correas">Correas</option>
+                                <option value="Estoperas">Estoperas</option>
+                                <option value="Bombas">Bombas</option>
+                                <option value="custom">Nueva categoría...</option>
+                            </select>
+                            <input type="text" id="prod-category-custom" class="form-input" placeholder="Escribe la nueva categoría" style="display: none; margin-top: 8px;">
+                        </div>
+                        <div class="form-group">
+                            <label for="prod-compatibility" class="form-label">Compatibilidad (Vehículos)</label>
+                            <input type="text" id="prod-compatibility" class="form-input" placeholder="Ej: Honda Civic (2012-2015), Acura ILX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Imagen del Repuesto</label>
+                        <div class="image-upload-wrapper">
+                            <div class="image-upload-preview" id="image-preview-container">
+                                <span class="image-upload-placeholder" id="upload-placeholder-text">Sin imagen</span>
+                                <img id="image-preview" src="" alt="Vista previa" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="image-upload-actions">
+                                <label for="prod-image-file" class="file-upload-btn">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                        <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/>
+                                    </svg>
+                                    Subir Archivo
+                                </label>
+                                <input type="file" id="prod-image-file" accept="image/*" style="display: none;">
+                                <span class="image-upload-or">ó</span>
+                                <input type="text" id="prod-image-url" class="form-input" placeholder="URL de la imagen (opcional)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prod-desc" class="form-label">Descripción</label>
+                        <textarea id="prod-desc" class="form-input" placeholder="Describa los detalles técnicos del repuesto..." rows="3"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="add-modal-cancel-btn" class="form-btn form-btn--cancel">Cancelar</button>
+                        <button type="submit" class="form-btn form-btn--submit">Guardar Repuesto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito de Cotización Flotante (Drawer) -->
+    <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
+        <div id="cart-overlay" class="cart-drawer__overlay"></div>
+        <div class="cart-drawer__container">
+            <header class="cart-drawer__header">
+                <h3 class="cart-drawer__title">Mi Cotización</h3>
+                <button id="cart-close-btn" class="cart-drawer__close" aria-label="Cerrar">&times;</button>
+            </header>
+            <div id="cart-list" class="cart-drawer__list">
+                <!-- Se carga dinámicamente -->
+            </div>
+            <footer class="cart-drawer__footer">
+                <button id="send-quote-btn" class="cart-drawer__button">
+                    <svg viewBox="0 0 24 24" width="18" height="18" class="cart-drawer__button-icon">
+                        <path fill="currentColor"
+                            d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.817 9.817 0 0 0 12.04 2zm5.82 14.1c-.24.67-1.4 1.24-1.9 1.3-.46.06-.9.23-2.93-.57-2.6-1.03-4.27-3.7-4.4-3.87-.13-.17-1.07-1.43-1.07-2.73 0-1.3.67-1.94.91-2.2.24-.26.54-.33.72-.33.18 0 .36.01.52.02.17.01.39-.06.61.47.23.55.78 1.9.85 2.05.07.15.12.33.02.53-.1.2-.15.33-.3.51-.15.18-.32.4-.45.54-.15.16-.31.33-.13.64.18.31.81 1.33 1.74 2.16.8.71 1.48.93 1.8.1.31-.13.67-.39.85-.66.18-.26.36-.23.61-.13.25.1.1.58.12.58.02 0 .04.06.06.06zm0 0" />
+                    </svg>
+                    Pedir Cotización por WhatsApp
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal de Información (Misión, Visión, Valores) -->
+    <div id="info-modal" class="modal" aria-hidden="true">
+        <div id="info-modal-overlay" class="modal__overlay"></div>
+        <div class="modal__container modal__container--info">
+            <button id="info-modal-close-btn" class="modal__close" aria-label="Cerrar modal">&times;</button>
+            <div class="modal__content">
+                <div class="info-tabs">
+                    <button class="info-tabs__btn info-tabs__btn--active" data-tab="mision">Nuestra Misión</button>
+                    <button class="info-tabs__btn" data-tab="vision">Nuestra Visión</button>
+                    <button class="info-tabs__btn" data-tab="valores">Valores</button>
+                </div>
+                <div class="info-panes">
+                    <!-- Tab Misión -->
+                    <div class="info-pane info-pane--active" id="pane-mision">
+                        <div class="info-pane__content">
+                            <div class="info-pane__icon-wrapper">
+                                <svg viewBox="0 0 24 24" width="48" height="48" class="info-pane__icon">
+                                    <path fill="currentColor" d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-12c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                                </svg>
+                            </div>
+                            <div class="info-pane__text-wrapper">
+                                <h3 class="info-pane__title">Misión</h3>
+                                <p class="info-pane__text">Proveer a nuestros clientes repuestos automotrices de la más alta calidad y marcas reconocidas, garantizando la seguridad, durabilidad y rendimiento de sus vehículos. Nos comprometemos a brindar una atención personalizada, asesoría técnica experta y precios competitivos en Valle de la Pascua y la región de los Llanos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Visión -->
+                    <div class="info-pane" id="pane-vision">
+                        <div class="info-pane__content">
+                            <div class="info-pane__icon-wrapper">
+                                <svg viewBox="0 0 24 24" width="48" height="48" class="info-pane__icon">
+                                    <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </div>
+                            <div class="info-pane__text-wrapper">
+                                <h3 class="info-pane__title">Visión</h3>
+                                <p class="info-pane__text">Ser el distribuidor líder y de mayor confianza en repuestos automotrices de la región de los Llanos para el año 2030, reconocidos por la excelencia en el servicio al cliente, la digitalización de nuestro catálogo, la rapidez en la entrega y un stock amplio y diversificado que cubra las necesidades de todas las marcas de vehículos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Valores -->
+                    <div class="info-pane" id="pane-valores">
+                        <div class="info-pane__content">
+                            <div class="info-pane__icon-wrapper">
+                                <svg viewBox="0 0 24 24" width="48" height="48" class="info-pane__icon">
+                                    <path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                            </div>
+                            <div class="info-pane__text-wrapper">
+                                <h3 class="info-pane__title">Valores</h3>
+                                <ul class="info-pane__list">
+                                    <li><strong>Compromiso:</strong> Garantizar la seguridad de nuestros clientes con repuestos de calidad certificada.</li>
+                                    <li><strong>Transparencia:</strong> Honestidad en precios, marcas y asesoría técnica.</li>
+                                    <li><strong>Innovación:</strong> Digitalizar nuestro catálogo para facilitar la cotización de repuestos desde cualquier lugar.</li>
+                                    <li><strong>Responsabilidad:</strong> Responder con rapidez y soluciones efectivas a cada consulta.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-contact">
+        <div class="contact-grid">
+            <div class="contact-item" id="footer-col-visit">
+                <h3>Visítanos</h3>
+                <p>Av. Principal, Sector Los Llanos</p>
+                <p>Valle de la Pascua, Guárico</p>
+            </div>
+            <div class="contact-item" id="footer-col-contact">
+                <h3>Atención al Cliente</h3>
+                <p>WhatsApp: +58 412-0000000</p>
+                <p>Email: contacto@jolosllanos.com</p>
+            </div>
+            <div class="contact-item">
+                <h3>Redes Sociales</h3>
+                <div class="social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                </div>
+            </div>
+        </div>
+        <p class="copy">&copy; 2024 Repuestos J.O Los Llanos</p>
+    </footer>
+
+    <!-- Contenedor para Notificaciones (Toast) -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Lógica del Catálogo Dinámico -->
+    <script src="js/catalogo.js"></script>
+</body>
+</html>
