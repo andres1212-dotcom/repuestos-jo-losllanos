@@ -1,3 +1,24 @@
+Analyzed server.js:L1-106
+
+La ruta exacta en tu computadora es:
+
+```text
+C:\Users\andres hurtado\Downloads\pagina _salvada\Repuesto\server\server.js
+```
+
+Puedes abrir tu explorador de archivos de Windows y entrar a:
+1. **Descargas** (Downloads)
+2. Carpeta **`pagina _salvada`**
+3. Carpeta **`Repuesto`**
+4. Carpeta **`server`**
+5. Ahí está el archivo **`server.js`**
+
+---
+
+### O si prefieres copiar y pegar el código directamente en GitHub:
+Haz clic en el lápiz ✏️ dentro de GitHub, borra lo que haya y pega exactamente este código:
+
+```javascript
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -44,6 +65,24 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/auth', authRoutes);
 
+const fs = require('fs');
+
+// Función para inicializar las tablas de la base de datos automáticamente si están vacías
+async function inicializarBaseDeDatos() {
+    try {
+        const schemaPath = path.join(__dirname, '../initdb/01_schema.sql');
+        if (fs.existsSync(schemaPath)) {
+            const sql = fs.readFileSync(schemaPath, 'utf8');
+            console.log('📦 Verificando/ejecutando esquema inicial de base de datos...');
+            await db.query(sql);
+            console.log('✅ Esquema de base de datos inicializado exitosamente.');
+        }
+        await encriptarAdminInicial();
+    } catch (error) {
+        console.error('⚠️ Error al inicializar esquema de base de datos:', error.message);
+    }
+}
+
 // Función para encriptar la contraseña del admin inicial si aún está en texto plano
 async function encriptarAdminInicial() {
     try {
@@ -59,12 +98,12 @@ async function encriptarAdminInicial() {
             }
         }
     } catch (error) {
-        console.error('⚠️ Error al verificar/encriptar la contraseña de administrador:', error);
+        console.error('⚠️ Error al verificar/encriptar la contraseña de administrador:', error.message);
     }
 }
 
-// Ejecutar verificación después de conectar
-setTimeout(encriptarAdminInicial, 1000);
+// Ejecutar inicialización después de conectar
+setTimeout(inicializarBaseDeDatos, 1500);
 
 // Servir la página web y estilos (los archivos en la raíz del proyecto)
 app.use(express.static(path.join(__dirname, '..')));
@@ -86,3 +125,6 @@ app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     console.log(`💻 Puedes abrir tu página web en esa misma dirección.`);
 });
+```
+
+Luego le das al botón verde **"Commit changes"** abajo. ¡Dime cuando lo tengas subido!
