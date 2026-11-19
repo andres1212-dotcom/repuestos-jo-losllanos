@@ -6,15 +6,19 @@ const db = require('../config/database');
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, usuario, password } = req.body;
+    const loginUser = usuario || email;
 
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Email y contraseña son requeridos.' });
+    if (!loginUser || !password) {
+        return res.status(400).json({ error: 'Usuario y contraseña son requeridos.' });
     }
 
     try {
-        // Buscar el usuario por email
-        const { rows } = await db.query('SELECT * FROM usuarios WHERE email = $1', [email]);
+        // Buscar el usuario por email o por nombre de usuario (sin distinguir mayúsculas)
+        const { rows } = await db.query(
+            'SELECT * FROM usuarios WHERE email ILIKE $1 OR nombre ILIKE $1',
+            [loginUser.trim()]
+        );
         
         if (rows.length === 0) {
             return res.status(401).json({ error: 'Credenciales inválidas.' });
