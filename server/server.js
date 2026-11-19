@@ -1,30 +1,9 @@
-Analyzed server.js:L1-106
-
-La ruta exacta en tu computadora es:
-
-```text
-C:\Users\andres hurtado\Downloads\pagina _salvada\Repuesto\server\server.js
-```
-
-Puedes abrir tu explorador de archivos de Windows y entrar a:
-1. **Descargas** (Downloads)
-2. Carpeta **`pagina _salvada`**
-3. Carpeta **`Repuesto`**
-4. Carpeta **`server`**
-5. Ahí está el archivo **`server.js`**
-
----
-
-### O si prefieres copiar y pegar el código directamente en GitHub:
-Haz clic en el lápiz ✏️ dentro de GitHub, borra lo que haya y pega exactamente este código:
-
-```javascript
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
-// Validar variables de entorno críticas (admite DATABASE_URL o variables individuales)
+// Validar variables de entorno críticas
 if (!process.env.DATABASE_URL) {
   const requiredEnv = ['PORT', 'DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'JWT_SECRET'];
   const missing = requiredEnv.filter(v => !process.env[v]);
@@ -41,7 +20,7 @@ if (!process.env.DATABASE_URL) {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Importar conexión a la base de datos (se ejecuta y prueba la conexión al requerirse)
+// Importar conexión a la base de datos
 const db = require('./config/database');
 
 // Importar rutas de la API
@@ -65,47 +44,124 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/auth', authRoutes);
 
-const fs = require('fs');
+// Ruta directa para inicializar la base de datos desde el navegador
+app.get('/api/setup-db', async (req, res) => {
+    try {
+        await crearTablasEInicializar();
+        res.json({ success: true, message: '✅ Base de datos inicializada correctamente con tablas y usuario administrador.' });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
 
-// Función para inicializar las tablas de la base de datos automáticamente si están vacías
+// Función para inicializar las tablas de la base de datos automáticamente
 async function inicializarBaseDeDatos() {
     try {
-        const schemaPath = path.join(__dirname, '../initdb/01_schema.sql');
-        if (fs.existsSync(schemaPath)) {
-            const sql = fs.readFileSync(schemaPath, 'utf8');
-            console.log('📦 Verificando/ejecutando esquema inicial de base de datos...');
-            await db.query(sql);
-            console.log('✅ Esquema de base de datos inicializado exitosamente.');
-        }
-        await encriptarAdminInicial();
+        await crearTablasEInicializar();
     } catch (error) {
         console.error('⚠️ Error al inicializar esquema de base de datos:', error.message);
     }
 }
 
-// Función para encriptar la contraseña del admin inicial si aún está en texto plano
-async function encriptarAdminInicial() {
-    try {
-        const { rows } = await db.query('SELECT * FROM usuarios WHERE email = $1', ['admin@jolosllanos.com']);
-        if (rows.length > 0) {
-            const admin = rows[0];
-            // Si la contraseña no parece un hash de bcrypt (los hashes de bcrypt empiezan con $2)
-            if (!admin.password.startsWith('$2')) {
-                console.log('🔒 Contraseña de administrador en texto plano detectada. Encriptando...');
-                const hashedPassword = await bcrypt.hash(admin.password, 10);
-                await db.query('UPDATE usuarios SET password = $1 WHERE id = $2', [hashedPassword, admin.id]);
-                console.log('✅ Contraseña de administrador encriptada exitosamente.');
-            }
+async function crearTablasEInicializar() {
+    console.log('📦 Creando tablas en PostgreSQL si no existen...');
+
+    // 1. Crear tablas
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS categorias (
+            id SERIAL PRIMARY KEY,
+            nombre VARCHAR(100) NOT NULL,
+            descripcion TEXT,
+            fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE TABLE IF NOT EXISTS productos (
+            id SERIAL PRIMARY KEY,
+            nombre VARCHAR(150) NOT NULL,
+            codigo_oem VARCHAR(50),
+            descripcion TEXT,
+            precio DECIMAL(10, 2) DEFAULT 0,
+            stock INT DEFAULT 0,
+            imagen TEXT,
+            categoria_id INT,
+            marca VARCHAR(50),
+            modelo_vehiculo VARCHAR(100),
+            activo BOOLEAN DEFAULT TRUE,
+            fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id SERIAL PRIMARY KEY,
+            nombre VARCHAR(100) NOT NULL,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            rol VARCHAR(20) DEFAULT 'admin',
+            fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE TABLE IF NOT EXISTS pedidos (
+            id SERIAL PRIMARY KEY,
+            nombre_cliente VARCHAR(100) NOT NULL,
+            telefono_cliente VARCHAR(20) NOT NULL,
+            total DECIMAL(10, 2) NOT NULL,
+            estado VARCHAR(20) DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'confirmado', 'entregado', 'cancelado')),
+            fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE TABLE IF NOT EXISTS detalle_pedido (
+            id SERIAL PRIMARY KEY,
+            pedido_id INT NOT NULL,
+            producto_id INT NOT NULL,
+            cantidad INT NOT NULL,
+            precio_unitario DECIMAL(10, 2) NOT NULL,
+            subtotal DECIMAL(10, 2) NOT NULL,
+            FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+            FOREIGN KEY (producto_id) REFERENCES productos(id)
+        );
+    `);
+
+    // 2. Categorías base
+    await db.query(`
+        INSERT INTO categorias (nombre) 
+        SELECT cat FROM (VALUES ('Motor'), ('Frenos'), ('Suspensión'), ('Correas'), ('Estoperas'), ('Bombas')) AS t(cat)
+        WHERE NOT EXISTS (SELECT 1 FROM categorias WHERE nombre = t.cat);
+    `);
+
+    // 3. Crear usuario Administrador si no existe
+    const adminCheck = await db.query('SELECT id, password FROM usuarios WHERE email = $1', ['admin@jolosllanos.com']);
+    if (adminCheck.rows.length === 0) {
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        await db.query(
+            'INSERT INTO usuarios (nombre, email, password, rol) VALUES ($1, $2, $3, $4)',
+            ['Admin J.O Los Llanos', 'admin@jolosllanos.com', hashedPassword, 'admin']
+        );
+        console.log('✅ Usuario administrador creado: admin@jolosllanos.com');
+    } else {
+        const admin = adminCheck.rows[0];
+        if (!admin.password.startsWith('$2')) {
+            const hashedPassword = await bcrypt.hash(admin.password, 10);
+            await db.query('UPDATE usuarios SET password = $1 WHERE id = $2', [hashedPassword, admin.id]);
         }
-    } catch (error) {
-        console.error('⚠️ Error al verificar/encriptar la contraseña de administrador:', error.message);
     }
+
+    // 4. Cargar un solo producto de muestra si la tabla de productos está vacía
+    const prodCount = await db.query('SELECT COUNT(*) FROM productos');
+    if (parseInt(prodCount.rows[0].count) === 0) {
+        await db.query(`
+            INSERT INTO productos (nombre, codigo_oem, descripcion, precio, stock, categoria_id, marca, modelo_vehiculo)
+            VALUES ('Pastillas de Freno Delanteras', 'OEM-12345', 'Producto de muestra inicial', 25.00, 10, (SELECT id FROM categorias WHERE nombre = 'Frenos' LIMIT 1), 'Bendix', 'Universal')
+            ON CONFLICT DO NOTHING;
+        `);
+    }
+
+    console.log('✅ Esquema y base de datos PostgreSQL listos.');
 }
 
 // Ejecutar inicialización después de conectar
 setTimeout(inicializarBaseDeDatos, 1500);
 
-// Servir la página web y estilos (los archivos en la raíz del proyecto)
+// Servir la página web y estilos
 app.use(express.static(path.join(__dirname, '..')));
 
 // Servir la carpeta de imágenes de repuestos y uploads
@@ -125,6 +181,3 @@ app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     console.log(`💻 Puedes abrir tu página web en esa misma dirección.`);
 });
-```
-
-Luego le das al botón verde **"Commit changes"** abajo. ¡Dime cuando lo tengas subido!
