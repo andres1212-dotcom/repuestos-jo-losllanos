@@ -128,21 +128,25 @@ async function crearTablasEInicializar() {
         WHERE NOT EXISTS (SELECT 1 FROM categorias WHERE nombre = t.cat);
     `);
 
-    // 3. Crear usuario Administrador si no existe
-    const adminCheck = await db.query('SELECT id, password FROM usuarios WHERE email = $1', ['admin@jolosllanos.com']);
+    // 3. Crear o actualizar usuario Administrador
+    // 👉 AQUÍ DEFINES EL USUARIO Y LA CONTRASEÑA (o mediante variables en Render):
+    const USUARIO_ADMIN = process.env.ADMIN_USER || 'admin';
+    const CLAVE_ADMIN = process.env.ADMIN_PASSWORD || 'admin123';
+    const hashedPassword = await bcrypt.hash(CLAVE_ADMIN, 10);
+
+    const adminCheck = await db.query('SELECT id FROM usuarios WHERE email = $1 OR nombre = $2', ['admin@jolosllanos.com', USUARIO_ADMIN]);
     if (adminCheck.rows.length === 0) {
-        const hashedPassword = await bcrypt.hash('admin123', 10);
         await db.query(
             'INSERT INTO usuarios (nombre, email, password, rol) VALUES ($1, $2, $3, $4)',
-            ['Admin J.O Los Llanos', 'admin@jolosllanos.com', hashedPassword, 'admin']
+            [USUARIO_ADMIN, 'admin@jolosllanos.com', hashedPassword, 'admin']
         );
-        console.log('✅ Usuario administrador creado: admin@jolosllanos.com');
+        console.log(`✅ Usuario administrador creado: ${USUARIO_ADMIN}`);
     } else {
-        const admin = adminCheck.rows[0];
-        if (!admin.password.startsWith('$2')) {
-            const hashedPassword = await bcrypt.hash(admin.password, 10);
-            await db.query('UPDATE usuarios SET password = $1 WHERE id = $2', [hashedPassword, admin.id]);
-        }
+        await db.query(
+            'UPDATE usuarios SET nombre = $1, password = $2 WHERE id = $3',
+            [USUARIO_ADMIN, hashedPassword, adminCheck.rows[0].id]
+        );
+        console.log(`✅ Usuario (${USUARIO_ADMIN}) y contraseña actualizados.`);
     }
 
     // 4. Cargar un solo producto de muestra si la tabla de productos está vacía
