@@ -453,20 +453,24 @@ html.theme-light .theme-toggle__icon--moon {
 .card__image-container {
     position: relative;
     width: 100%;
-    height: 180px;
+    height: 190px;
     overflow: hidden;
-    background-color: var(--bg-tertiary);
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
 }
 
 .card__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform var(--transition-slow);
 }
 
 .card:hover .card__image {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .card__info {
@@ -651,17 +655,21 @@ html.theme-light .theme-toggle__icon--moon {
 
 .modal__image-wrapper {
     width: 100%;
-    height: 280px;
+    height: 300px;
     border-radius: var(--radius-md);
     overflow: hidden;
-    background-color: var(--bg-tertiary);
+    background-color: #ffffff;
     border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
 }
 
 .modal__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .modal__info-wrapper {

@@ -104,12 +104,12 @@
                 <h2 class="modal__title" style="margin-bottom: 20px; text-align: left;">Acceso Administrativo</h2>
                 <form id="login-form" class="modal-form">
                     <div class="form-group">
-                        <label for="login-email" class="form-label">usuario</label>
-                        <input type="text" id="login-email" class="form-input" placeholder="ingresa tu usuario" required>
+                        <label for="login-email" class="form-label">Usuario</label>
+                        <input type="text" id="login-email" class="form-input" placeholder="Ingresa tu usuario" required>
                     </div>
                     <div class="form-group">
                         <label for="login-password" class="form-label">Contraseña</label>
-                        <input type="password" id="login-password" class="form-input" placeholder="******" required>
+                        <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
                     </div>
                     <div class="form-actions" style="margin-top: 24px;">
                         <button type="button" id="login-modal-cancel-btn" class="form-btn form-btn--cancel">Cancelar</button>
@@ -170,7 +170,7 @@
                         <div class="image-upload-wrapper">
                             <div class="image-upload-preview" id="image-preview-container">
                                 <span class="image-upload-placeholder" id="upload-placeholder-text">Sin imagen</span>
-                                <img id="image-preview" src="" alt="Vista previa" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                                <img id="image-preview" src="" alt="Vista previa" style="display: none; width: 100%; height: 100%; object-fit: contain;">
                             </div>
                             <div class="image-upload-actions">
                                 <label for="prod-image-file" class="file-upload-btn">
