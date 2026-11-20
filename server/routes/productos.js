@@ -6,7 +6,7 @@ const streamifier = require('streamifier');
 const db = require('../config/database');
 const auth = require('../middleware/auth');
 
-// Configuración de Cloudinary
+// ─── Configuración de Cloudinary (lee las variables de entorno de Render) ───
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key:    process.env.CLOUDINARY_API_KEY,
@@ -14,7 +14,7 @@ cloudinary.config({
     secure:     true
 });
 
-// Multer en memoria (sin guardar en disco temporal)
+// ─── Multer en memoria (no guarda en disco, manda directo a Cloudinary) ───
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 }, // Máximo 5 MB
@@ -25,17 +25,21 @@ const upload = multer({
     }
 });
 
-// Helper para subir buffer a Cloudinary
+// ─── Helper: sube un buffer a Cloudinary y devuelve la URL permanente ───
 function subirACloudinary(buffer, nombreBase) {
     return new Promise((resolve, reject) => {
+        const cleanName = (nombreBase || 'repuesto').replace(/[^a-zA-Z0-9_-]/g, '_');
         const stream = cloudinary.uploader.upload_stream(
             {
                 folder:         'repuestos-jo-losllanos',
-                public_id:      `repuesto_${Date.now()}_${nombreBase}`,
+                public_id:      `rep_${Date.now()}_${cleanName}`.substring(0, 80),
                 transformation: [{ width: 800, height: 800, crop: 'limit', quality: 'auto:good', fetch_format: 'auto' }]
             },
             (error, result) => {
-                if (error) return reject(error);
+                if (error) {
+                    console.error('Error Cloudinary upload_stream:', error);
+                    return reject(error);
+                }
                 resolve(result.secure_url);
             }
         );
@@ -43,21 +47,21 @@ function subirACloudinary(buffer, nombreBase) {
     });
 }
 
-// POST /api/productos/upload — Subir imagen a Cloudinary
+// ─── POST /api/productos/upload — Subir imagen a Cloudinary ───
 router.post('/upload', auth, upload.single('imagen'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No se subió ningún archivo' });
     }
     try {
         const url = await subirACloudinary(req.file.buffer, req.file.originalname.split('.')[0]);
-        res.json({ message: 'Imagen subida exitosamente', url });
+        res.json({ message: 'Imagen subida exitosamente', url, filename: url });
     } catch (err) {
         console.error('Error al subir imagen a Cloudinary:', err);
         res.status(500).json({ error: 'Error al subir la imagen' });
     }
 });
 
-// GET /api/productos — Obtener catálogo
+// ─── GET /api/productos — Obtener todos los productos (con filtros) ───
 router.get('/', async (req, res) => {
     const { categoria, q } = req.query;
     try {
@@ -92,7 +96,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /api/productos/:id — Obtener producto por ID
+// ─── GET /api/productos/:id — Obtener un producto por ID ───
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -111,7 +115,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST /api/productos — Crear producto
+// ─── POST /api/productos — Crear producto (Admin) ───
 router.post('/', auth, async (req, res) => {
     const { nombre, codigo_oem, descripcion, imagen, categoria_id, marca, modelo_vehiculo, precio, stock } = req.body;
     if (!nombre) return res.status(400).json({ error: 'El nombre del repuesto es obligatorio' });
@@ -129,7 +133,7 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
-// PUT /api/productos/:id — Editar producto
+// ─── PUT /api/productos/:id — Editar producto (Admin) ───
 router.put('/:id', auth, async (req, res) => {
     const { id } = req.params;
     const { nombre, codigo_oem, descripcion, imagen, categoria_id, marca, modelo_vehiculo, precio, stock, activo } = req.body;
@@ -156,7 +160,7 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
-// DELETE /api/productos/:id — Eliminar producto
+// ─── DELETE /api/productos/:id — Eliminar producto (Admin) ───
 router.delete('/:id', auth, async (req, res) => {
     const { id } = req.params;
     try {
