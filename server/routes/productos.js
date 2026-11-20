@@ -1,51 +1,63 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
 const db = require('../config/database');
 const auth = require('../middleware/auth');
 
-// Configuración de almacenamiento para multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../uploads'));
-    },
-    filename: (req, file, cb) => {
-        // Generar nombre de archivo único conservando la extensión
-        const ext = path.extname(file.originalname).toLowerCase();
-        const cleanName = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-        cb(null, `${Date.now()}_${cleanName}${ext}`);
-    }
+// Configuración de Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key:    process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure:     true
 });
 
+// Multer en memoria (sin guardar en disco temporal)
 const upload = multer({
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Máximo 5MB
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }, // Máximo 5 MB
     fileFilter: (req, file, cb) => {
-        const allowedTypes = /jpeg|jpg|png|webp|gif/;
-        const mimeValid = allowedTypes.test(file.mimetype);
-        const extValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-        if (mimeValid && extValid) {
-            return cb(null, true);
-        }
-        cb(new Error('Formato de imagen no permitido (solo JPG, PNG, WEBP, GIF)'));
+        const allowed = /jpeg|jpg|png|webp|gif/;
+        if (allowed.test(file.mimetype)) return cb(null, true);
+        cb(new Error('Formato no permitido (solo JPG, PNG, WEBP, GIF)'));
     }
 });
 
-// Endpoint para subir imagen
-router.post('/upload', auth, upload.single('imagen'), (req, res) => {
+// Helper para subir buffer a Cloudinary
+function subirACloudinary(buffer, nombreBase) {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder:         'repuestos-jo-losllanos',
+                public_id:      `repuesto_${Date.now()}_${nombreBase}`,
+                transformation: [{ width: 800, height: 800, crop: 'limit', quality: 'auto:good', fetch_format: 'auto' }]
+            },
+            (error, result) => {
+                if (error) return reject(error);
+                resolve(result.secure_url);
+            }
+        );
+        streamifier.createReadStream(buffer).pipe(stream);
+    });
+}
+
+// POST /api/productos/upload — Subir imagen a Cloudinary
+router.post('/upload', auth, upload.single('imagen'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No se subió ningún archivo' });
     }
-    // Devolvemos el nombre de archivo guardado
-    res.json({
-        message: 'Imagen subida exitosamente',
-        filename: req.file.filename,
-        url: `/uploads/${req.file.filename}`
-    });
+    try {
+        const url = await subirACloudinary(req.file.buffer, req.file.originalname.split('.')[0]);
+        res.json({ message: 'Imagen subida exitosamente', url });
+    } catch (err) {
+        console.error('Error al subir imagen a Cloudinary:', err);
+        res.status(500).json({ error: 'Error al subir la imagen' });
+    }
 });
 
-// Obtener todos los productos (con filtros opcionales de categoría y búsqueda)
+// GET /api/productos — Obtener catálogo
 router.get('/', async (req, res) => {
     const { categoria, q } = req.query;
     try {
@@ -57,24 +69,21 @@ router.get('/', async (req, res) => {
         `;
         const queryParams = [];
 
-        // Filtro por nombre de categoría
         if (categoria) {
             queryParams.push(categoria);
             query += ` AND c.nombre = $${queryParams.length}`;
         }
 
-        // Buscador por nombre, OEM, marca o modelo de vehículo
         if (q) {
-            const searchWildcard = `%${q}%`;
-            query += ` AND (p.nombre ILIKE $${queryParams.length + 1} 
-                        OR p.codigo_oem ILIKE $${queryParams.length + 2} 
-                        OR p.modelo_vehiculo ILIKE $${queryParams.length + 3} 
+            const like = `%${q}%`;
+            query += ` AND (p.nombre ILIKE $${queryParams.length + 1}
+                        OR p.codigo_oem ILIKE $${queryParams.length + 2}
+                        OR p.modelo_vehiculo ILIKE $${queryParams.length + 3}
                         OR p.marca ILIKE $${queryParams.length + 4})`;
-            queryParams.push(searchWildcard, searchWildcard, searchWildcard, searchWildcard);
+            queryParams.push(like, like, like, like);
         }
 
         query += ' ORDER BY p.id DESC';
-
         const { rows } = await db.query(query, queryParams);
         res.json(rows);
     } catch (error) {
@@ -83,7 +92,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Obtener un producto específico por ID
+// GET /api/productos/:id — Obtener producto por ID
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -94,11 +103,7 @@ router.get('/:id', async (req, res) => {
              WHERE p.id = $1`,
             [id]
         );
-
-        if (rows.length === 0) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-
+        if (rows.length === 0) return res.status(404).json({ error: 'Producto no encontrado' });
         res.json(rows[0]);
     } catch (error) {
         console.error('Error al obtener el producto:', error);
@@ -106,13 +111,10 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Crear un producto (Panel Admin)
+// POST /api/productos — Crear producto
 router.post('/', auth, async (req, res) => {
     const { nombre, codigo_oem, descripcion, imagen, categoria_id, marca, modelo_vehiculo, precio, stock } = req.body;
-
-    if (!nombre) {
-        return res.status(400).json({ error: 'El nombre del repuesto es obligatorio' });
-    }
+    if (!nombre) return res.status(400).json({ error: 'El nombre del repuesto es obligatorio' });
 
     try {
         const { rows } = await db.query(
@@ -120,18 +122,14 @@ router.post('/', auth, async (req, res) => {
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
             [nombre, codigo_oem || '', descripcion || '', precio || 0, stock || 0, imagen || '', categoria_id || null, marca || '', modelo_vehiculo || '']
         );
-
-        res.status(201).json({
-            message: 'Producto creado con éxito',
-            id: rows[0].id
-        });
+        res.status(201).json({ message: 'Producto creado con éxito', id: rows[0].id });
     } catch (error) {
         console.error('Error al crear producto:', error);
         res.status(500).json({ error: 'Error interno del servidor al crear producto' });
     }
 });
 
-// Editar un producto (Panel Admin)
+// PUT /api/productos/:id — Editar producto
 router.put('/:id', auth, async (req, res) => {
     const { id } = req.params;
     const { nombre, codigo_oem, descripcion, imagen, categoria_id, marca, modelo_vehiculo, precio, stock, activo } = req.body;
@@ -150,11 +148,7 @@ router.put('/:id', auth, async (req, res) => {
                 activo !== undefined ? activo : true, id
             ]
         );
-
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-
+        if (result.rowCount === 0) return res.status(404).json({ error: 'Producto no encontrado' });
         res.json({ message: 'Producto actualizado con éxito' });
     } catch (error) {
         console.error('Error al actualizar producto:', error);
@@ -162,16 +156,12 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
-// Eliminar un producto (Panel Admin)
+// DELETE /api/productos/:id — Eliminar producto
 router.delete('/:id', auth, async (req, res) => {
     const { id } = req.params;
     try {
         const result = await db.query('DELETE FROM productos WHERE id = $1', [id]);
-
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-
+        if (result.rowCount === 0) return res.status(404).json({ error: 'Producto no encontrado' });
         res.json({ message: 'Producto eliminado con éxito' });
     } catch (error) {
         console.error('Error al eliminar producto:', error);
