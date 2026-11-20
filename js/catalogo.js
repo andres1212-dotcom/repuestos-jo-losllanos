@@ -632,7 +632,7 @@ async function handleAddProductSubmit(e) {
 
             if (uploadRes.ok) {
                 const uploadData = await uploadRes.json();
-                image = uploadData.filename;
+                image = uploadData.url || uploadData.filename;
             } else {
                 showToast("No se pudo subir la imagen del archivo. Se usará imagen previa o default.", "error");
             }
