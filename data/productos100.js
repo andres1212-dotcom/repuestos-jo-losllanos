@@ -1,0 +1,1122 @@
+// Catálogo oficial de 100 repuestos diversificados para Repuestos J.O Los Llanos
+// Extraídos y organizados del catálogo físico DFC Express (KTO, Herko, AST, LGP, MXC, Fraco, Xtender)
+
+const PRODUCTOS_100 = [
+    // ─── 1. FILTROS (12 repuestos) ───
+    {
+        nombre: 'Filtro de Aceite KTO 51040',
+        codigo_oem: 'KTO-51040',
+        descripcion: 'Filtro de aceite roscado de alta eficiencia y filtrado de micropartículas para motores 1.4L y 1.6L.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Aveo, Corsa, Chevette',
+        precio: 6.50,
+        stock: 25,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 59006',
+        codigo_oem: 'KTO-59006',
+        descripcion: 'Filtro de aceite blindado para vehículos Chery motor 1.8L y 2.0L Acteco.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chery Orinoco / Tiggo 2.0',
+        precio: 7.50,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 57060',
+        codigo_oem: 'KTO-57060',
+        descripcion: 'Filtro de aceite de alto rendimiento para motores V8 Vortec 5.3L / 6.0L.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Silverado, Avalanche, Tahoe 5.3',
+        precio: 9.00,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 51334',
+        codigo_oem: 'KTO-51334',
+        descripcion: 'Filtro de aceite lubricante para camionetas D-Max 3.5L V6 y versiones diésel.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Luv D-Max (Gasolina / Diésel)',
+        precio: 8.50,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 59915',
+        codigo_oem: 'KTO-59915',
+        descripcion: 'Elemento filtrante de aceite para motores Toyota 1GR-FE 4.0L V6.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Hilux Kavak, Fortuner 06-19 4.0',
+        precio: 10.00,
+        stock: 22,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 57064',
+        codigo_oem: 'KTO-57064',
+        descripcion: 'Cartucho de aceite ecológico para Corolla motor 2ZR-FE con sellos incluidos.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Corolla 1.8L 2009-2014',
+        precio: 8.00,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 51515',
+        codigo_oem: 'KTO-51515',
+        descripcion: 'Filtro de aceite rosca grande 3/4-16 para motores Ford 300, 302 y 351.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Bronco, F-150, F-350 V8',
+        precio: 8.50,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Aceite KTO 57502',
+        codigo_oem: 'KTO-57502',
+        descripcion: 'Filtro de lubricante para motores Ford Cologne V6 4.0L.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Explorer 4.0L / Ranger 91-00',
+        precio: 8.00,
+        stock: 14,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Gasolina KTO FG001',
+        codigo_oem: 'KTO-FG001',
+        descripcion: 'Filtro de combustible metálico con conectores rápidos para Ford motor Rocam 1.6L.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Fiesta Power, Max, Move, EcoSport',
+        precio: 9.50,
+        stock: 30,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Gasolina KTO FG002',
+        codigo_oem: 'KTO-FG002',
+        descripcion: 'Filtro de gasolina en línea con abrazadera para sistemas de inyección multipunto GM.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Aveo, Optra, Spark',
+        precio: 8.50,
+        stock: 35,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Gasolina KTO FG003',
+        codigo_oem: 'KTO-FG003',
+        descripcion: 'Filtro de gasolina de alta presión tipo roscado para motores Toyota V6.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Hilux Kavak, 4Runner, Fortuner',
+        precio: 14.00,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Filtro de Gasolina KTO FG004',
+        codigo_oem: 'KTO-FG004',
+        descripcion: 'Filtro de combustible con conexiones rápidas de plástico técnico resistente.',
+        categoria: 'Filtros',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chery Arauca, Orinoco, QQ',
+        precio: 8.00,
+        stock: 16,
+        imagen: ''
+    },
+
+    // ─── 2. RADIADORES Y ENFRIAMIENTO (12 repuestos) ───
+    {
+        nombre: 'Radiador de Aluminio KTO Corsa',
+        codigo_oem: 'KTO-RAD-001',
+        descripcion: 'Radiador de aluminio tubular con tanques de polímero térmico reforzado.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Corsa 1.4 / 1.6 Sincrónico',
+        precio: 48.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Aveo Sinc.',
+        codigo_oem: 'KTO-RAD-002',
+        descripcion: 'Radiador de enfriamiento para motor Aveo caja sincrónica sin enfriador de aceite.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6 Sincrónico',
+        precio: 52.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Aveo Aut.',
+        codigo_oem: 'KTO-RAD-003',
+        descripcion: 'Radiador de enfriamiento con serpentín de cobre incorporado para caja automática.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6 Automático',
+        precio: 56.00,
+        stock: 7,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Fiesta Power',
+        codigo_oem: 'KTO-RAD-004',
+        descripcion: 'Radiador de refrigeración de alto caudal para Ford Fiesta 1.6L.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Fiesta Power, Max, Move Sincrónico',
+        precio: 50.00,
+        stock: 9,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Fiesta Balita',
+        codigo_oem: 'KTO-RAD-005',
+        descripcion: 'Radiador compacto con excelente disipación de calor para Fiesta Balita.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Fiesta Balita 1.3 / 1.6 (hasta 2004)',
+        precio: 46.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO EcoSport Aut.',
+        codigo_oem: 'KTO-RAD-006',
+        descripcion: 'Radiador para camioneta EcoSport motor Duratec 2.0L con enfriador de transmisión.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford EcoSport 2.0 Automática',
+        precio: 65.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Spark',
+        codigo_oem: 'KTO-RAD-007',
+        descripcion: 'Radiador para motor 1.0L de 4 cilindros, ajuste preciso a los soportes originales.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Spark 1.0 / Daewoo Matiz',
+        precio: 42.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Optra',
+        codigo_oem: 'KTO-RAD-008',
+        descripcion: 'Radiador de enfriamiento para Optra con anclajes para doble electroventilador.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Optra Limited / Design 1.8',
+        precio: 58.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Corolla',
+        codigo_oem: 'KTO-RAD-009',
+        descripcion: 'Radiador de aluminio soldado con núcleo de alta densidad para Corolla 1.6 / 1.8.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Corolla New Sensation (2003-2008)',
+        precio: 55.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Radiador de Aluminio KTO Hilux / Fortuner',
+        codigo_oem: 'KTO-RAD-010',
+        descripcion: 'Radiador de uso pesado para camionetas Toyota Hilux 4x2 y 4x4.',
+        categoria: 'Radiadores',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Hilux 2.7 / Fortuner 4.0',
+        precio: 75.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Carcasa de Termostato de Aluminio Fiesta',
+        codigo_oem: 'MOT-TH-FIESTA',
+        descripcion: 'Toma de agua / termostato metálico de aluminio reforzado (reemplazo del plástico original).',
+        categoria: 'Radiadores',
+        marca: 'Motorcraft',
+        modelo_vehiculo: 'Ford Fiesta Power, Max, Move, EcoSport 1.6',
+        precio: 22.00,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Termostato con Base de Aluminio GM Aveo',
+        codigo_oem: 'GM-TH-AVEO',
+        descripcion: 'Válvula termostática completa calibrada a 87°C con cuerpo de aluminio y junta tórica.',
+        categoria: 'Radiadores',
+        marca: 'GM Genuine',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6L',
+        precio: 16.00,
+        stock: 20,
+        imagen: ''
+    },
+
+    // ─── 3. BOMBAS DE GASOLINA Y AGUA (20 repuestos) ───
+    {
+        nombre: 'Pila de Bomba de Gasolina KTO E2069',
+        codigo_oem: 'KTO-E2069',
+        descripcion: 'Pila de bomba de combustible sumergible 12V con conmutador de carbono para máxima durabilidad.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Fiesta Power (Con Retorno) / Ka',
+        precio: 18.00,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Pila de Bomba de Gasolina KTO E2157',
+        codigo_oem: 'KTO-E2157',
+        descripcion: 'Bomba eléctrica de gasolina de alto caudal 110 LPH con filtro cedazo y cableado.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Explorer / Fortaleza F-150',
+        precio: 22.00,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Pila de Bomba con Regulador KTO MU1314F',
+        codigo_oem: 'KTO-MU1314F',
+        descripcion: 'Kit de bomba de gasolina con filtro regulador integrado para Chevrolet V8.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Silverado 5.3 / Avalanche',
+        precio: 28.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Pila de Bomba de Gasolina KTO MU1314',
+        codigo_oem: 'KTO-MU1314',
+        descripcion: 'Pila de gasolina para sistemas de inyección Vortec 5.3L.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Silverado 5.3 / Cheyenne',
+        precio: 22.00,
+        stock: 14,
+        imagen: ''
+    },
+    {
+        nombre: 'Pila de Bomba de Gasolina KTO 23220',
+        codigo_oem: 'KTO-23220-21211',
+        descripcion: 'Pila de bomba japonesa de presión constante 3.5 Bar para línea Toyota.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Yaris, Belta, Previa, Roraima',
+        precio: 20.00,
+        stock: 16,
+        imagen: ''
+    },
+    {
+        nombre: 'Módulo Completo de Bomba Herko 09228',
+        codigo_oem: 'HRK-09228',
+        descripcion: 'Módulo completo con vaso, pila, regulador, flotante y arnés para Toyota V6.',
+        categoria: 'Bombas',
+        marca: 'Herko',
+        modelo_vehiculo: 'Toyota Tacoma / 4Runner / Fortuner 4.0',
+        precio: 85.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Módulo Completo de Bomba Herko 09244',
+        codigo_oem: 'HRK-09244',
+        descripcion: 'Conjunto módulo de combustible para Jeep Grand Cherokee con sensor de nivel.',
+        categoria: 'Bombas',
+        marca: 'Herko',
+        modelo_vehiculo: 'Jeep Grand Cherokee WK 4.7 / 5.7',
+        precio: 92.00,
+        stock: 4,
+        imagen: ''
+    },
+    {
+        nombre: 'Módulo Completo de Bomba Herko 09260',
+        codigo_oem: 'HRK-09260',
+        descripcion: 'Módulo de tanque completo para Ford EcoSport con prefiltro interno.',
+        categoria: 'Bombas',
+        marca: 'Herko',
+        modelo_vehiculo: 'Ford EcoSport 4x2 2.0L',
+        precio: 78.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Módulo Completo de Bomba Herko 09278',
+        codigo_oem: 'HRK-09278',
+        descripcion: 'Módulo de gasolina para tanques de alta capacidad de camionetas Ford.',
+        categoria: 'Bombas',
+        marca: 'Herko',
+        modelo_vehiculo: 'Ford F-150 / F-250 Triton 5.4',
+        precio: 95.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Módulo Completo de Bomba Herko 09295',
+        codigo_oem: 'HRK-09295',
+        descripcion: 'Módulo de combustible completo para Dodge Ram motor Hemi.',
+        categoria: 'Bombas',
+        marca: 'Herko',
+        modelo_vehiculo: 'Dodge Ram 1500 / 2500 5.7 Hemi',
+        precio: 98.00,
+        stock: 4,
+        imagen: ''
+    },
+    {
+        nombre: 'Módulo Completo de Bomba Herko 09310',
+        codigo_oem: 'HRK-09310',
+        descripcion: 'Ensamble de bomba con flotante calibrado y sellos de tanque originales.',
+        categoria: 'Bombas',
+        marca: 'Herko',
+        modelo_vehiculo: 'Toyota Hilux Kavak 4.0L',
+        precio: 88.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Pila Universal de Gasolina KTO 2068',
+        codigo_oem: 'KTO-BOSCH-2068',
+        descripcion: 'Pila universal de inyección multipunto 3.0 Bar para vehículos livianos GM y Fiat.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Aveo, Corsa, Spark, Optra',
+        precio: 16.00,
+        stock: 25,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Corsa 1.4 / 1.6',
+        codigo_oem: 'KTO-WP-CORSA',
+        descripcion: 'Bomba de agua con turbina metálica reforzada y rodamientos sellados de alta vida útil.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Corsa 1.3 / 1.4 / 1.6',
+        precio: 22.00,
+        stock: 14,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Aveo 1.6',
+        codigo_oem: 'KTO-WP-AVEO',
+        descripcion: 'Bomba de refrigeración con empacadura de oring incluida para motor Aveo.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Aveo 1.5 / 1.6 16V',
+        precio: 24.00,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Spark 1.0',
+        codigo_oem: 'KTO-WP-SPARK',
+        descripcion: 'Bomba de agua de aluminio fundido para Chevrolet Spark.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Spark 1.0 / Matiz',
+        precio: 20.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Fiesta Power 1.6',
+        codigo_oem: 'KTO-WP-FIESTA',
+        descripcion: 'Bomba para motor Rocam 1.6L con sello mecánico cerámico a prueba de goteo.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford Fiesta Power, Max, EcoSport 1.6',
+        precio: 25.00,
+        stock: 16,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Corolla 1.8',
+        codigo_oem: 'KTO-WP-COROLLA',
+        descripcion: 'Bomba de agua de alto caudal con polea ranurada incluida para correa de accesorios.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Corolla 1.6 / 1.8 (2003-2008)',
+        precio: 28.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Yaris 1.3 / 1.5',
+        codigo_oem: 'KTO-WP-YARIS',
+        descripcion: 'Bomba de circulación de refrigerante para motores Toyota 1NZ-FE y 2NZ-FE.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Yaris 1.3 / 1.5 (2000-2009)',
+        precio: 26.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Hilux 2.7',
+        codigo_oem: 'KTO-WP-HILUX',
+        descripcion: 'Bomba de agua de uso severo con carcasa robusta para camionetas Hilux.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Hilux 2.7L (2TR-FE)',
+        precio: 35.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba de Agua KTO Optra Limited',
+        codigo_oem: 'KTO-WP-OPTRA',
+        descripcion: 'Bomba de agua para sincronización de distribución y enfriamiento Optra 1.8L.',
+        categoria: 'Bombas',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Optra Limited 1.8',
+        precio: 25.00,
+        stock: 10,
+        imagen: ''
+    },
+
+    // ─── 4. REGULADORES Y SENSORES (10 repuestos) ───
+    {
+        nombre: 'Regulador de Presión de Gasolina AST Triton',
+        codigo_oem: 'AST-PR101',
+        descripcion: 'Válvula reguladora de presión en riel de inyección calibrada a 40-45 PSI.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Ford Triton 5.4 / F-150',
+        precio: 24.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Regulador de Presión de Gasolina AST D-Max',
+        codigo_oem: 'AST-PR102',
+        descripcion: 'Regulador de gasolina para riel de inyección D-Max Isuzu / Chevrolet.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Luv D-Max 3.5 V6',
+        precio: 26.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Regulador de Presión de Gasolina AST Corsa',
+        codigo_oem: 'AST-PR103',
+        descripcion: 'Regulador de presión de diafragma metálico para sistema TBI y MPFI Corsa.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Corsa 1.4 / 1.6 / Cielo',
+        precio: 19.00,
+        stock: 14,
+        imagen: ''
+    },
+    {
+        nombre: 'Regulador de Presión de Gasolina AST Aveo',
+        codigo_oem: 'AST-PR104',
+        descripcion: 'Regulador de presión colocado en módulo o riel de combustible.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6 / Optra',
+        precio: 22.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Sensor de Posición de Garganta TPS AST Fiesta',
+        codigo_oem: 'AST-TPS-01',
+        descripcion: 'Sensor potenciómetro TPS para cuerpo de aceleración con conector de 3 pines.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Ford Fiesta Power, Max, Move, Ka 1.6',
+        precio: 15.00,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Válvula IAC / Motor de Mínimo AST Corsa',
+        codigo_oem: 'AST-IAC-01',
+        descripcion: 'Actuador de paso a paso para estabilizar las RPM de ralentí en motor Corsa.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Corsa 1.4 / 1.6',
+        precio: 14.00,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Válvula IAC / Motor de Mínimo AST Aveo/Spark',
+        codigo_oem: 'AST-IAC-02',
+        descripcion: 'Válvula de control de marcha mínima con vástago cónico de precisión.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6 / Spark 1.0',
+        precio: 15.00,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Sensor de Presión Absoluta MAP AST Corsa',
+        codigo_oem: 'AST-MAP-01',
+        descripcion: 'Sensor MAP de 3 terminales para medición de vacío en el múltiple de admisión.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Corsa, Aveo, Optra',
+        precio: 18.00,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Sensor de Posición de Cigüeñal CKP AST Aveo',
+        codigo_oem: 'AST-CKP-01',
+        descripcion: 'Sensor magnético captador de posición de cigüeñal para sincronización de chispa.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6L',
+        precio: 18.00,
+        stock: 16,
+        imagen: ''
+    },
+    {
+        nombre: 'Sensor de Oxígeno 1 Cable AST Corsa',
+        codigo_oem: 'AST-O2-01',
+        descripcion: 'Sonda lambda de circonio para control estequiométrico de mezcla de combustible.',
+        categoria: 'Sensores',
+        marca: 'AST',
+        modelo_vehiculo: 'Chevrolet Corsa 1.4 / 1.6',
+        precio: 17.00,
+        stock: 14,
+        imagen: ''
+    },
+
+    // ─── 5. CADENAS, CORREAS Y DISTRIBUCIÓN (10 repuestos) ───
+    {
+        nombre: 'Cadena y Engranajes de Tiempo LGP Chev 350',
+        codigo_oem: 'LGP-TC305',
+        descripcion: 'Kit de piñones y cadena doble de distribución para motores Chevrolet 5.0L y 5.7L.',
+        categoria: 'Correas',
+        marca: 'LGP',
+        modelo_vehiculo: 'Chevrolet V8 305 / 350 Small Block',
+        precio: 38.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Cadena y Engranajes de Tiempo LGP Ford 302',
+        codigo_oem: 'LGP-TC302',
+        descripcion: 'Juego de cadena silenciosa y engranajes de acero templado para Ford 302.',
+        categoria: 'Correas',
+        marca: 'LGP',
+        modelo_vehiculo: 'Ford V8 302 / 351 Windsor 5.0',
+        precio: 38.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Kit de Cadenas de Tiempo LGP Triton 5.4',
+        codigo_oem: 'LGP-TC-TRITON',
+        descripcion: 'Kit completo con 2 cadenas, piñones de levas, tensores hidráulicos y patines guía.',
+        categoria: 'Correas',
+        marca: 'LGP',
+        modelo_vehiculo: 'Ford Triton 5.4L 3V / F-150',
+        precio: 85.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Cadena de Tiempo LGP QuadraTrac Jeep',
+        codigo_oem: 'LGP-TC-JEEP',
+        descripcion: 'Cadena de distribución de uso pesado para motores AMC Jeep.',
+        categoria: 'Correas',
+        marca: 'LGP',
+        modelo_vehiculo: 'Jeep Cherokee / Wagoneer V8 360',
+        precio: 42.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Kit de Cadena de Tiempo LGP Hilux 2.7',
+        codigo_oem: 'LGP-TC-HILUX',
+        descripcion: 'Kit completo con cadena principal, tensor de trinquete y patines de teflón.',
+        categoria: 'Correas',
+        marca: 'LGP',
+        modelo_vehiculo: 'Toyota Hilux 2.7L (2TR-FE)',
+        precio: 80.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Kit de Correa de Tiempo Completo Aveo 1.6',
+        codigo_oem: 'GAT-KT-AVEO',
+        descripcion: 'Incluye correa de tiempo sincrónica 127 dientes, tensor mecánico y polea loca.',
+        categoria: 'Correas',
+        marca: 'Gates',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6L 16V',
+        precio: 36.00,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Correa de Tiempo Sincrónica 111D Corsa',
+        codigo_oem: 'GAT-KT-CORSA',
+        descripcion: 'Correa de distribución de caucho HNBR reforzado resistente a altas temperaturas.',
+        categoria: 'Correas',
+        marca: 'Gates',
+        modelo_vehiculo: 'Chevrolet Corsa 1.4 / 1.6 8V',
+        precio: 12.00,
+        stock: 25,
+        imagen: ''
+    },
+    {
+        nombre: 'Tensor de Correa de Tiempo INA Optra',
+        codigo_oem: 'INA-TEN-OPTRA',
+        descripcion: 'Tensor excéntrico con rodamientos alemanes de precisión para distribución.',
+        categoria: 'Correas',
+        marca: 'INA',
+        modelo_vehiculo: 'Chevrolet Optra Limited / Design 1.8',
+        precio: 26.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Correa Única Serpentina 6PK2245 Fiesta',
+        codigo_oem: 'DYC-6PK2245',
+        descripcion: 'Correa poli-V de 6 canales para alternador, bomba de agua y compresor.',
+        categoria: 'Correas',
+        marca: 'Dayco',
+        modelo_vehiculo: 'Ford Fiesta Power / Max (Con A/A y Dir)',
+        precio: 15.00,
+        stock: 22,
+        imagen: ''
+    },
+    {
+        nombre: 'Correa de Alternador 4PK665 Spark',
+        codigo_oem: 'GAT-4PK665',
+        descripcion: 'Correa acanalada para el alternador de Chevrolet Spark y Daewoo Matiz.',
+        categoria: 'Correas',
+        marca: 'Gates',
+        modelo_vehiculo: 'Chevrolet Spark 1.0L',
+        precio: 9.00,
+        stock: 20,
+        imagen: ''
+    },
+
+    // ─── 6. SUSPENSIÓN Y TRANSMISIÓN (12 repuestos) ───
+    {
+        nombre: 'Amortiguador Delantero a Gas MXC Hilux',
+        codigo_oem: 'MXC-SH-001',
+        descripcion: 'Amortiguador telescópico reforzado con vástago de cromo endurecido.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Toyota Hilux Kavak / 4Runner (Der/Izq)',
+        precio: 45.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Amortiguador Trasero a Gas MXC Hilux',
+        codigo_oem: 'MXC-SH-002',
+        descripcion: 'Amortiguador de alta resistencia para absorción de impactos en carga pesada.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Toyota Hilux Kavak / 4Runner',
+        precio: 42.00,
+        stock: 14,
+        imagen: ''
+    },
+    {
+        nombre: 'Amortiguador Delantero MXC Fiesta Power',
+        codigo_oem: 'MXC-SH-003',
+        descripcion: 'Puntal de suspensión hidráulico con carga de nitrógeno para confort de marcha.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Ford Fiesta Power, Max, Move',
+        precio: 38.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Amortiguador Delantero MXC Spark',
+        codigo_oem: 'MXC-SH-004',
+        descripcion: 'Amortiguador delantero McPherson para máxima estabilidad urbana.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Chevrolet Spark 1.0',
+        precio: 34.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Amortiguador Delantero MXC Logan / Sandero',
+        codigo_oem: 'MXC-SH-005',
+        descripcion: 'Puntal de suspensión con sellos de alta presión y excelente durabilidad.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Renault Logan 1.6 / Sandero',
+        precio: 40.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Amortiguador Delantero MXC Terios Bego',
+        codigo_oem: 'MXC-SH-006',
+        descripcion: 'Amortiguador diseñado para terrenos irregulares y alta exigencia.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Daihatsu Terios / Toyota Bego',
+        precio: 42.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Amortiguador Delantero MXC Silverado 4x4',
+        codigo_oem: 'MXC-SH-007',
+        descripcion: 'Amortiguador de uso pesado con cuerpo sobredimensionado para camionetas V8.',
+        categoria: 'Suspensión',
+        marca: 'MXC',
+        modelo_vehiculo: 'Chevrolet Silverado / Tahoe 4x4',
+        precio: 48.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Puente de Cardán KTO Hilux 4x4',
+        codigo_oem: 'KTO-37230-0K021',
+        descripcion: 'Soporte de transmisión central con rodamiento y caucho vulcanizado antivibración.',
+        categoria: 'Suspensión',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Hilux 4x4 (2006-2015)',
+        precio: 32.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Puente de Cardán KTO Hilux 4x2',
+        codigo_oem: 'KTO-37230-0K040',
+        descripcion: 'Puente de cardán para alineación perfecta de la barra de transmisión.',
+        categoria: 'Suspensión',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Hilux 4x2 Gasolina / Diésel',
+        precio: 32.00,
+        stock: 9,
+        imagen: ''
+    },
+    {
+        nombre: 'Puente de Cardán KTO Terios',
+        codigo_oem: 'KTO-31100-87402',
+        descripcion: 'Soporte central de barra cardánica para Terios 1.3L y 1.5L.',
+        categoria: 'Suspensión',
+        marca: 'KTO',
+        modelo_vehiculo: 'Toyota Terios / Daihatsu 4x4',
+        precio: 29.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Puente de Cardán KTO Ford 35mm',
+        codigo_oem: 'KTO-HB88107AK',
+        descripcion: 'Soporte de transmisión con rodamiento de 35mm de diámetro interior.',
+        categoria: 'Suspensión',
+        marca: 'KTO',
+        modelo_vehiculo: 'Ford F-100, F-150, Bronco 35mm',
+        precio: 34.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Puente de Cardán KTO Cheyenne 40mm',
+        codigo_oem: 'KTO-HB88508AK',
+        descripcion: 'Puente cardán de alta exigencia con rodamiento de 40mm para carga.',
+        categoria: 'Suspensión',
+        marca: 'KTO',
+        modelo_vehiculo: 'Chevrolet Cheyenne / C-10 40mm',
+        precio: 35.00,
+        stock: 12,
+        imagen: ''
+    },
+
+    // ─── 7. FRENOS (12 repuestos) ───
+    {
+        nombre: 'Bandas de Freno Traseras Xtender Tucson',
+        codigo_oem: 'XT-BS085',
+        descripcion: 'Juego de 4 zapatas de freno traseras con forro semimetálico de alta fricción.',
+        categoria: 'Frenos',
+        marca: 'Xtender',
+        modelo_vehiculo: 'Hyundai Tucson / Kia Sportage 2.0',
+        precio: 26.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Bandas de Freno Traseras Xtender D-Max 4x4',
+        codigo_oem: 'XT-BS1039',
+        descripcion: 'Bandas de freno con remache de precisión y respuesta inmediata al frenado.',
+        categoria: 'Frenos',
+        marca: 'Xtender',
+        modelo_vehiculo: 'Chevrolet Luv D-Max 05-09 4x4',
+        precio: 28.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Bandas de Freno Traseras Xtender D-Max 4x2',
+        codigo_oem: 'XT-BS1039A',
+        descripcion: 'Juego de bandas traseras para tambores originales Chevrolet D-Max 4x2.',
+        categoria: 'Frenos',
+        marca: 'Xtender',
+        modelo_vehiculo: 'Chevrolet Luv D-Max 4x2',
+        precio: 27.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Bandas de Freno Traseras Xtender Fiesta Balita',
+        codigo_oem: 'XT-BS1104128',
+        descripcion: 'Zapatas traseras con compuesto antiruido y coeficiente de frenada suave.',
+        categoria: 'Frenos',
+        marca: 'Xtender',
+        modelo_vehiculo: 'Ford Fiesta Balita / Ka (hasta 2004)',
+        precio: 20.00,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Bandas de Freno Traseras Xtender EcoSport/Fiesta',
+        codigo_oem: 'XT-BS2200',
+        descripcion: 'Bandas de freno traseras de recambio original para tambores de 8 pulgadas.',
+        categoria: 'Frenos',
+        marca: 'Xtender',
+        modelo_vehiculo: 'Ford EcoSport / Fiesta Power 1.6',
+        precio: 24.00,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Bandas de Freno Traseras Xtender EcoSport 4x4',
+        codigo_oem: 'XT-BS2201',
+        descripcion: 'Bandas para la versión 4WD con mayor superficie de contacto y resistencia térmica.',
+        categoria: 'Frenos',
+        marca: 'Xtender',
+        modelo_vehiculo: 'Ford EcoSport 4x4 2.0L',
+        precio: 26.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Pastillas de Freno Delanteras Bendix Aveo',
+        codigo_oem: 'BEN-PAD-AVEO',
+        descripcion: 'Juego de 4 pastillas semimetálicas con laminillas antivibración y sensor de desgaste.',
+        categoria: 'Frenos',
+        marca: 'Bendix',
+        modelo_vehiculo: 'Chevrolet Aveo 1.5 / 1.6 (Todos)',
+        precio: 18.00,
+        stock: 25,
+        imagen: ''
+    },
+    {
+        nombre: 'Pastillas de Freno Delanteras Akebono Corolla',
+        codigo_oem: 'BEN-PAD-COROLLA',
+        descripcion: 'Pastillas de frenado cerámicas que garantizan llantas limpias y frenada silenciosa.',
+        categoria: 'Frenos',
+        marca: 'Akebono',
+        modelo_vehiculo: 'Toyota Corolla New Sensation / GLi',
+        precio: 22.00,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Discos de Freno Delanteros Spark (Par)',
+        codigo_oem: 'RAY-DSC-SPARK',
+        descripcion: 'Par de discos ventilados de fundición gris rectificados con tolerancia milimétrica.',
+        categoria: 'Frenos',
+        marca: 'Raybestos',
+        modelo_vehiculo: 'Chevrolet Spark 1.0 (Par)',
+        precio: 38.00,
+        stock: 8,
+        imagen: ''
+    },
+    {
+        nombre: 'Cilindro de Rueda Trasero Bendix Corsa',
+        codigo_oem: 'BEN-CYL-CORSA',
+        descripcion: 'Bombín de freno trasero de aluminio con pistones dobles y purga de aire.',
+        categoria: 'Frenos',
+        marca: 'Bendix',
+        modelo_vehiculo: 'Chevrolet Corsa 1.4 / 1.6 (Der/Izq)',
+        precio: 9.50,
+        stock: 20,
+        imagen: ''
+    },
+    {
+        nombre: 'Bomba Principal de Freno ACDelco Optra',
+        codigo_oem: 'ACD-MC-OPTRA',
+        descripcion: 'Cilindro maestro de freno con depósito de fluido incluido y sellos EPDM.',
+        categoria: 'Frenos',
+        marca: 'ACDelco',
+        modelo_vehiculo: 'Chevrolet Optra Limited / Design',
+        precio: 45.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Manguera Flexible de Freno Hilux Delantera',
+        codigo_oem: 'SEI-HOSE-HILUX',
+        descripcion: 'Línea de freno de alta presión con terminales crimpados a prueba de fugas.',
+        categoria: 'Frenos',
+        marca: 'Seiken',
+        modelo_vehiculo: 'Toyota Hilux Kavak / 4Runner',
+        precio: 12.00,
+        stock: 14,
+        imagen: ''
+    },
+
+    // ─── 8. EMPAQUES Y ESTOPERAS (12 repuestos) ───
+    {
+        nombre: 'Juego de Empaques Completo Fraco Chev 305',
+        codigo_oem: 'FRC-FS-8510PT3',
+        descripcion: 'Full Set completo con empacaduras de cámara, múltiple, cárter y retenes.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Chevrolet V8 305 F.I. (1996 en adelante)',
+        precio: 55.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Ford 302',
+        codigo_oem: 'FRC-FS-8548SB10',
+        descripcion: 'Juego de juntas completas para reconstrucción general de motor Ford 5.0.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Ford V8 302 F.I. 5.0L (1991-1999)',
+        precio: 54.00,
+        stock: 6,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Corsa 1.4',
+        codigo_oem: 'FRC-FS-94101',
+        descripcion: 'Kit de empacaduras de motor con junta de culata de asbesto grafitado y sellos.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Chevrolet Corsa 1.3 / 1.4L 8V',
+        precio: 38.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Ford 351W',
+        codigo_oem: 'FRC-FS-8549SB11',
+        descripcion: 'Juego integral de empacaduras para motor Ford Windsor 5.8L.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Ford V8 351W F.I. (1992-2000)',
+        precio: 58.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Century',
+        codigo_oem: 'FRC-FS-8699PT2',
+        descripcion: 'Full set con estopera de cigüeñal con cuello para motor Century V6.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Chevrolet Century 173 2.8L (83-87)',
+        precio: 45.00,
+        stock: 5,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Aveo 1.6',
+        codigo_oem: 'FRC-FS-1286-SB2',
+        descripcion: 'Kit de empaques para motor E-TEC II incluyendo empacadura metálica MLS.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6L 16V (2005 en adelante)',
+        precio: 44.00,
+        stock: 12,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Ford F-230',
+        codigo_oem: 'FRC-FS-8857PT2',
+        descripcion: 'Juego de juntas para motores clásicos Ford de camión con sellos de aceite.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Ford F-230 V8 con estopera',
+        precio: 52.00,
+        stock: 4,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Corsa 1.6',
+        codigo_oem: 'FRC-FS-94100',
+        descripcion: 'Juego de empaques completo para mantenimiento mayor o anillado de motor Corsa 1.6.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Chevrolet Corsa 1.6L 8V (1996 en adelante)',
+        precio: 39.00,
+        stock: 15,
+        imagen: ''
+    },
+    {
+        nombre: 'Juego de Empaques Completo Fraco Corsa 00/06',
+        codigo_oem: 'FRC-FS-94102-2',
+        descripcion: 'Full set de juntas y retenes para segunda generación de Chevrolet Corsa.',
+        categoria: 'Estoperas',
+        marca: 'Fraco',
+        modelo_vehiculo: 'Chevrolet Corsa 1.6L (2000-2006)',
+        precio: 40.00,
+        stock: 10,
+        imagen: ''
+    },
+    {
+        nombre: 'Empacadura de Cámara MLS Sabó Aveo 1.6',
+        codigo_oem: 'SAB-GAS-AVEO',
+        descripcion: 'Empacadura de culata multilámina de acero de compresión sellada indeformable.',
+        categoria: 'Estoperas',
+        marca: 'Sabó',
+        modelo_vehiculo: 'Chevrolet Aveo 1.6L 16V',
+        precio: 16.00,
+        stock: 18,
+        imagen: ''
+    },
+    {
+        nombre: 'Empacadura de Tapa de Válvulas Sabó Optra',
+        codigo_oem: 'SAB-VS-OPTRA',
+        descripcion: 'Empacadura de goma nitrílica resistente al calor para evitar fugas de aceite en bujías.',
+        categoria: 'Estoperas',
+        marca: 'Sabó',
+        modelo_vehiculo: 'Chevrolet Optra Limited / Design',
+        precio: 12.00,
+        stock: 16,
+        imagen: ''
+    },
+    {
+        nombre: 'Estopera Trasera de Cigüeñal Sabó Corsa',
+        codigo_oem: 'SAB-TC-CORSA',
+        descripcion: 'Retén de cigüeñal lado volante con labio de vitón antidesgaste.',
+        categoria: 'Estoperas',
+        marca: 'Sabó',
+        modelo_vehiculo: 'Chevrolet Corsa, Aveo, Cielo',
+        precio: 11.00,
+        stock: 20,
+        imagen: ''
+    }
+];
+
+module.exports = PRODUCTOS_100;
