@@ -28,6 +28,7 @@ const productosRoutes = require('./routes/productos');
 const categoriasRoutes = require('./routes/categorias');
 const authRoutes = require('./routes/auth');
 const bcrypt = require('bcryptjs');
+const productos100 = require('./data/productos100');
 
 // Middlewares
 app.use(cors({
@@ -50,6 +51,71 @@ app.get('/api/setup-db', async (req, res) => {
         await crearTablasEInicializar();
         res.json({ success: true, message: '✅ Base de datos inicializada correctamente con tablas y usuario administrador.' });
     } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// Ruta temporal para inyectar los 100 repuestos del catálogo en la base de datos PostgreSQL
+app.get('/api/cargar-100-repuestos', async (req, res) => {
+    try {
+        // 1. Asegurar que existan todas las categorías necesarias
+        const categoriasRequeridas = [
+            'Filtros', 'Radiadores', 'Bombas', 'Sensores',
+            'Correas', 'Suspensión', 'Frenos', 'Estoperas', 'Motor'
+        ];
+        for (const cat of categoriasRequeridas) {
+            const existeCat = await db.query('SELECT id FROM categorias WHERE nombre = $1', [cat]);
+            if (existeCat.rows.length === 0) {
+                await db.query('INSERT INTO categorias (nombre) VALUES ($1)', [cat]);
+            }
+        }
+
+        // 2. Mapear nombres de categorías a IDs
+        const catRows = await db.query('SELECT id, nombre FROM categorias');
+        const catMap = {};
+        catRows.rows.forEach(r => { catMap[r.nombre] = r.id; });
+
+        // 3. Insertar los 100 repuestos (evitando duplicados por codigo_oem)
+        let insertados = 0;
+        let yaExistian = 0;
+
+        for (const prod of productos100) {
+            const catId = catMap[prod.categoria] || null;
+            const existeProd = await db.query('SELECT id FROM productos WHERE codigo_oem = $1', [prod.codigo_oem]);
+
+            if (existeProd.rows.length === 0) {
+                await db.query(`
+                    INSERT INTO productos (nombre, codigo_oem, descripcion, precio, stock, imagen, categoria_id, marca, modelo_vehiculo)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                `, [
+                    prod.nombre,
+                    prod.codigo_oem,
+                    prod.descripcion,
+                    prod.precio,
+                    prod.stock,
+                    prod.imagen || '',
+                    catId,
+                    prod.marca,
+                    prod.modelo_vehiculo
+                ]);
+                insertados++;
+            } else {
+                yaExistian++;
+            }
+        }
+
+        const totalEnBd = await db.query('SELECT COUNT(*) FROM productos WHERE activo = true');
+
+        res.json({
+            success: true,
+            mensaje: '🚀 Catálogo de 100 repuestos procesado con éxito en PostgreSQL.',
+            total_en_catalogo: productos100.length,
+            nuevos_insertados: insertados,
+            ya_existian: yaExistian,
+            total_productos_en_base_de_datos: parseInt(totalEnBd.rows[0].count)
+        });
+    } catch (err) {
+        console.error('Error al cargar 100 repuestos:', err);
         res.status(500).json({ success: false, error: err.message });
     }
 });
@@ -123,13 +189,12 @@ async function crearTablasEInicializar() {
 
     // 2. Categorías base
     await db.query(`
-        INSERT INTO categorias (nombre) 
-        SELECT cat FROM (VALUES ('Motor'), ('Frenos'), ('Suspensión'), ('Correas'), ('Estoperas'), ('Bombas')) AS t(cat)
+        INSERT INTO categorias (nombre)
+        SELECT cat FROM (VALUES ('Filtros'), ('Radiadores'), ('Bombas'), ('Sensores'), ('Correas'), ('Suspensión'), ('Frenos'), ('Estoperas'), ('Motor')) AS t(cat)
         WHERE NOT EXISTS (SELECT 1 FROM categorias WHERE nombre = t.cat);
     `);
 
     // 3. Crear o actualizar usuario Administrador
-    // 👉 AQUÍ DEFINES EL USUARIO Y LA CONTRASEÑA (o mediante variables en Render):
     const USUARIO_ADMIN = process.env.ADMIN_USER || 'admin';
     const CLAVE_ADMIN = process.env.ADMIN_PASSWORD || 'admin123';
     const hashedPassword = await bcrypt.hash(CLAVE_ADMIN, 10);
@@ -149,7 +214,7 @@ async function crearTablasEInicializar() {
         console.log(`✅ Usuario (${USUARIO_ADMIN}) y contraseña actualizados.`);
     }
 
-    // 4. Cargar un solo producto de muestra si la tabla de productos está vacía
+    // 4. Producto de muestra si la tabla está vacía
     const prodCount = await db.query('SELECT COUNT(*) FROM productos');
     if (parseInt(prodCount.rows[0].count) === 0) {
         await db.query(`
@@ -168,15 +233,19 @@ setTimeout(inicializarBaseDeDatos, 1500);
 // Servir la página web y estilos
 app.use(express.static(path.join(__dirname, '..')));
 
-// Servir la carpeta de imágenes de repuestos y uploads
+// Servir la carpeta de uploads
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../Uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'Uploads')));
 app.use('/imagenes-catalogo', express.static(path.join(__dirname, '../uploads')));
+app.use('/imagenes-catalogo', express.static(path.join(__dirname, 'uploads')));
 
 // Ruta de estado de la API
 app.get('/api/status', (req, res) => {
-    res.json({ 
-        status: 'online', 
-        message: 'API de Repuestos J.O Los Llanos funcionando correctamente.' 
+    res.json({
+        status: 'online',
+        message: 'API de Repuestos J.O Los Llanos funcionando correctamente.'
     });
 });
 
